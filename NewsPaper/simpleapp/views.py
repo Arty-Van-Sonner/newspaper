@@ -4,10 +4,11 @@ from django.views.generic import ListView, DetailView
 from .models import Product
 from datetime import datetime
 from .filters import ProductFilter
+from .forms import ProductForm
 
 # from profanity_filter import ProfanityFilter
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 
 def multiply(request):
@@ -75,3 +76,13 @@ class ProductDetail(DetailView):
     template_name = 'product.html'
     # Название объекта, в котором будет выбранный пользователем продукт
     context_object_name = 'product'
+
+def create_product(request):
+    form = ProductForm()
+    if request.method == 'POST':
+        form = ProductForm(request.POST)
+        print(form.errors)
+        if form.is_valid():
+            new_product = form.save()
+            return HttpResponseRedirect(f'/products/{new_product.pk}/')
+    return render(request, 'product_edit.html', {'form': form})

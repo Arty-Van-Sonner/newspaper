@@ -1,0 +1,84 @@
+Python 3.9.1 (tags/v3.9.1:1e5d33e, Dec  7 2020, 17:08:21) [MSC v.1927 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from simpleapp.forms import ProductForm
+>>> f = ProductForm({'name': 'test', 'category': 1, 'price': 42, 'description': '', 'quantiry': 1})
+>>> f.is_valid()
+False
+>>> f.errors
+{'description': ['This field is required.'], 'quantity': ['This field is required.']}
+>>> f = ProductForm({'name': 'test', 'category': 1, 'price': 42, 'description': 'test', 'quantity': 1})
+>>> f.is_valid()
+True
+>>> f.errors
+{}
+>>> f.cleaned_data
+{'name': 'test', 'description': 'test', 'quantity': 1, 'category': <Category: Test>, 'price': 42.0}
+>>> f.is_valid()   
+True
+>>> f = ProductForm({'name': 'test', 'category': 1, 'price': 42, 'description': 'test', 'quantity': 1, 'extra_field': 123})  
+>>> f.is_valid()
+True
+>>> f.errors
+{}
+>>> f.cleaned_data
+{'name': 'test', 'description': 'test', 'quantity': 1, 'category': <Category: Test>, 'price': 42.0}
+>>> print(f) 
+<tr>
+    <th><label for="id_name">Name:</label></th>
+    <td>
+
+      <input type="text" name="name" value="test" maxlength="50" required id="id_name">
+
+
+    </td>
+  </tr>
+
+  <tr>
+    <th><label for="id_description">Description:</label></th>
+    <td>
+
+      <textarea name="description" cols="40" rows="10" required id="id_description">
+test</textarea>
+
+
+    </td>
+  </tr>
+
+  <tr>
+    <th><label for="id_quantity">Quantity:</label></th>
+    <td>
+
+      <input type="number" name="quantity" value="1" required id="id_quantity">
+
+
+    </td>
+  </tr>
+
+  <tr>
+    <th><label for="id_category">Category:</label></th>
+    <td>
+
+      <select name="category" required id="id_category">
+  <option value="">---------</option>
+
+  <option value="1" selected>Test</option>
+
+</select>
+
+
+    </td>
+  </tr>
+
+  <tr>
+    <th><label for="id_price">Price:</label></th>
+    <td>
+
+      <input type="number" name="price" value="42" step="any" required id="id_price">
+
+
+
+
+    </td>
+  </tr>
+>>>
