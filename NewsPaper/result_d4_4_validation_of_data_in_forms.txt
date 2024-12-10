@@ -1,0 +1,28 @@
+Python 3.9.1 (tags/v3.9.1:1e5d33e, Dec  7 2020, 17:08:21) [MSC v.1927 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from simpleapp.forms import ProductForm
+>>> f = ProductForm({'name': 'test', 'category': 1, 'price': 42, 'description': 'test', 'quantity': 1})
+>>> f.errors
+{'description': ['The description cannot be less than 20 characters long.'], 'name': ['Product with this Name already exists.']}
+>>> f = ProductForm({'name': 'test', 'category': 1, 'price': 42, 'description': '', 'quantity': 1})
+>>> f.errors
+{'description': ['This field is required.'], 'name': ['Product with this Name already exists.']}
+>>> f = ProductForm({'name': 'test', 'category': 1, 'price': 42, 'description': 'description', 'quantity': 1})
+>>> f.errors
+{'description': ['The description cannot be less than 20 characters long.'], 'name': ['Product with this Name already exists.']}
+>>>
+>>> f = ProductForm({'name': '12345678901234567890', 'category': 1, 'price': 42, 'description': '12345678901234567890', 'quantity': 1})
+>>> f.errors
+{'__all__': ['The description should not be identical to the name.']}
+>>> f = ProductForm({'name': '12345678901234567890', 'category': 1, 'price': 42, 'description': '123456789012', 'quantity': 1})         
+>>> f.errors                                                                                                                    
+{'description': ['The description cannot be less than 20 characters long.']}
+>>> 
+>>> f = ProductForm({'name': 'test', 'category': 1, 'price': 42, 'description': 'test', 'quantity': 1})
+>>> f.errors
+{'description': ['Ensure this value has at least 20 characters (it has 4).'], 'name': ['Product with this Name already exists.']}
+>>> f = ProductForm({'name': 'test', 'category': 1, 'price': 42, 'description': '12345678901234567890', 'quantity': 1})
+>>> f.errors
+{'name': ['Product with this Name already exists.']}
+>>> 

@@ -9,4 +9,22 @@ Product
 <!-- В контенте на странице мы выводим сам товар, идентификатор которого был передан в url -->
 {% block content %}
 <h1>{{ product }}</h1>
+<table>
+    <tr>
+        <th>Category</th>
+        <th>{{ product.category }}</th>
+    </tr>
+    <tr>
+        <th>Quantity</th>
+        <th>{{ product.quantity }}</th>
+    </tr>
+    <tr>
+        <th>Price</th>
+        <th>{{ product.price }}</th>
+    </tr>
+    <tr>
+        <th>Description</th>
+        <th>{{ product.description }}</th>
+    </tr>
+</table>
 {% endblock content %}
