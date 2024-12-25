@@ -36,6 +36,12 @@ Products
     </form>
 
     <hr>
+
+    {# Теперь будем проверять не request.user.is_authenticated, а конкретные права #}
+    {% if perms.simpleapp.add_product %}
+    <a href="{% url 'product_create' %}">Добавить товар</a>
+    {% endif %}
+
     {% if products %}
         <table>
             <tr>
@@ -53,6 +59,16 @@ Products
                 <td>{{ product.category.name }}</td>
                 <td>{{ product.price|currency:"usd" }}</td>
                 <td>{{ product.quantity }}</td>
+
+                <td>
+                    {# А здесь доступ для каждой ссылки теперь будем проверять отдельно #}
+                    {% if perms.simpleapp.change_product %}
+                    <a href="{% url 'product_update' pk=product.id %}">Изменить</a>
+                    {% endif %}
+                    {% if perms.simpleapp.delete_product %}
+                    <a href="{% url 'product_delete' product.id %}">Удалить</a>
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
 

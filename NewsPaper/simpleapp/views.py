@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
-from django.views.generic import ListView, DetailView
+from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Product
-from datetime import datetime
 from .filters import ProductFilter
 from .forms import ProductForm
 
@@ -76,6 +79,30 @@ class ProductDetail(DetailView):
     template_name = 'product.html'
     # Название объекта, в котором будет выбранный пользователем продукт
     context_object_name = 'product'
+
+class ProductCreate(PermissionRequiredMixin, CreateView):
+    permission_required = ('simpleapp.add_product',)
+    raise_exception = True
+    # Указываем нашу разработанную форму
+    form_class = ProductForm
+    # модель товаров
+    model = Product
+    # и новый шаблон, в котором используется форма.
+    template_name = 'product_edit.html'
+
+# Добавляем представление для изменения товара.
+class ProductUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = ('simpleapp.change_product',)
+    form_class = ProductForm
+    model = Product
+    template_name = 'product_edit.html'
+
+# Представление удаляющее товар.
+class ProductDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = ('simpleapp.delete_product',)
+    model = Product
+    template_name = 'product_delete.html'
+    success_url = reverse_lazy('product_list')
 
 def create_product(request):
     form = ProductForm()

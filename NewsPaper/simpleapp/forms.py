@@ -18,10 +18,10 @@ class ProductForm(forms.ModelForm):
     def clean(self) -> dict[str, any]:
         cleaned_data = super().clean()
         description = cleaned_data.get('description')
-        if description is not None and len(description) < 20:
-            raise ValidationError({
-                'description': 'The description cannot be less than 20 characters long.',
-            })
+        # if description is not None and len(description) < 20:
+        #     raise ValidationError({
+        #         'description': 'The description cannot be less than 20 characters long.',
+        #     })
 
         name = cleaned_data.get("name")
         if name == description:
