@@ -2,6 +2,8 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from django.urls import reverse
 
+from django.contrib.auth.models import User
+
 # Create your models here.
 # Товар для нашей витрины 
 class Product(models.Model):
@@ -47,3 +49,15 @@ class Material(models.Model):
 class ProductMaterial(models.Model):
     product = models.ForeignKey(Product, on_delete = models.CASCADE)
     material = models.ForeignKey(Material, on_delete = models.CASCADE)
+
+class Subscription(models.Model):
+    user = models.ForeignKey(
+        to=User,
+        on_delete=models.CASCADE,
+        related_name='subscriptions',
+    )
+    category = models.ForeignKey(
+        to='Category',
+        on_delete=models.CASCADE,
+        related_name='subscriptions',
+    )

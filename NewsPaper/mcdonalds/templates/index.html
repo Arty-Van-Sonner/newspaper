@@ -1,0 +1,32 @@
+{% extends "flatpages/default.html" %}
+
+{% block content %}
+<table>
+    <thead>
+    <tr>
+        <th>Номер заказа</th>
+        <th>Стоимость</th>
+        <th>Заказ оформлен</th>
+        <th>Статус</th>
+    </tr>
+    </thead>
+
+    {% for order in orders %}
+    <tr>
+        <th>{{ order.id }}</th>
+        <th>{{ order.cost }}</th>
+        <th>{{ order.time_in|time:"H:i" }}</th>
+        <th>{% if not order.complete %}
+             Заказ еще не готов.
+            {% elif order.time_out is None %}
+            <button><a href="{% url 'take_order' order.id %}"> Забрать </a></button>
+            {% else %}
+            Заказ забрали {{ order.time_out|time:"H:i" }}
+            {% endif %}
+        </th>
+
+    </tr>
+    {% endfor %}
+</table>
+    
+{% endblock %}
