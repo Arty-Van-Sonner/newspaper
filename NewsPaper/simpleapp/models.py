@@ -4,6 +4,8 @@ from django.urls import reverse
 
 from django.contrib.auth.models import User
 
+from django.core.cache import cache
+
 # Create your models here.
 # Товар для нашей витрины 
 class Product(models.Model):
@@ -31,6 +33,15 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('product_detail', args=[str(self.id)])
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        cache.delete(f'product-{self.pk}')
+    
+    def delete(self, using, keep_parents):
+        pk = self.pk
+        result = super().delete(using, keep_parents)
+        cache.delete(f'product-{pk}')
+        return result
 
 # Категория, к которой будет привязываться товар
 class Category(models.Model):
