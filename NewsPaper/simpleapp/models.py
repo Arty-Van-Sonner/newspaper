@@ -27,6 +27,10 @@ class Product(models.Model):
         validators=[MinValueValidator(0.0)],
     )
 
+    @property
+    def on_stock(self):
+        return self.quantity > 0
+
     def __str__(self):
         return f'{self.name.title()}: {self.description[:20]}'
 
