@@ -65,6 +65,9 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+
+    'django.middleware.locale.LocaleMiddleware',
+    
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -75,6 +78,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'NewsPaper.urls'
+
+LOCALE_PATH = [
+    os.path.join(BASE_DIR, 'locale')
+]
 
 LOGIN_REDIRECT_URL = "/products"
 
