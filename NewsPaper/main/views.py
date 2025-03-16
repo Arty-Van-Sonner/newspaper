@@ -7,6 +7,10 @@ from django.utils.translation import gettext as _ # импортируем фу�
  
 class Index(View):
     def get(self, request):
-        string = _('Hello world') 
+        string = _('Hello world')
+
+        context = {
+            'string': string,
+        } 
    
-        return HttpResponse(string)
+        return HttpResponse(render(request, 'index.html', context))
