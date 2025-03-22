@@ -37,6 +37,8 @@ SITE_ID = 1
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation', # обязательно впишите его перед админом
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -60,6 +62,7 @@ INSTALLED_APPS = [
     'celery',
 
     'mcdonalds',
+    'basic',
 ]
 
 MIDDLEWARE = [
