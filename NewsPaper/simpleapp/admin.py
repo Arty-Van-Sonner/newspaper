@@ -1,6 +1,16 @@
 from django.contrib import admin
 from .models import *
+from modeltranslation.admin import TranslationAdmin # импортируем модель админки (вспоминаем модуль про переопределение стандартных админ-инструментов)
  
+
+# Регистрируем модели для перевода в админке
+ 
+class CategoryAdmin(TranslationAdmin):
+    model = Category
+ 
+ 
+class ProductAdmin(TranslationAdmin):
+    model = Product
 
 # напишем уже знакомую нам функцию обнуления товара на складе
 def nullfy_quantity(modeladmin, request, queryset): # все аргументы уже должны быть вам знакомы, самые нужные из них это request — объект хранящий информацию о запросе и queryset — грубо говоря набор объектов, которых мы выделили галочками.

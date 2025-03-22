@@ -1,5 +1,6 @@
-<!DOCTYPE html>
-{% load i18n %}
+{% load i18n %} 
+{% load tz %} <!-- не забываем загрузить тег для работы с часовыми поясами -->
+ 
  
 <html lang="en">
 <head>
@@ -7,17 +8,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page title</title>
+    <!-- Если сейчас больше чем 19 или же меньше 7, то выводим тёмную тему, иначе выводим светлую -->
+    <style>
+        body {background-color: {% if current_time.hour >= 19 or current_time.hour <= 7 %} darkcyan {% else %} powderblue {% endif %};}
+    </style>
 </head>
 <body>
-    <form action="{% url 'set_language' %}" method="POST"> {% csrf_token %} <!-- Не забываем по csrf_token для POST запросов -->
+    
+    <form action="{% url 'set_language' %}" method="POST"> {% csrf_token %} <!-- Не забываем по csrf_token для POST-запросов -->
         <input type="hidden" name="next" value="{{ redirect_to }}">
         
         <select name="language" id="">
             {% get_available_languages as LANGUAGES %} <!-- получаем языки -->
             {% get_language_info_list for LANGUAGES as languages %} <!-- Помещаем их в список languages -->
-            {% get_current_language as LANGUAGE_CODE %}
+ 
             {% for language in languages %} <!-- Итерируясь по списку, выводим их название на языке пользователя и код -->
-                <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected {% endif %}>
+                <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected >{% endif %} >
                     {{ language.name_local }} - {{ language.code }}
                 </option>
             {% endfor %}
@@ -25,7 +31,27 @@
         <input type="submit" value="set">
     </form>
  
-    {{ string }} <!-- Это уже знакомая нам переменная, просто засунули её в шаблон -->
-    {% trans "Check out my new cool translation" %}! <!-- Переводим строку -->
+    {% get_current_timezone as TIME_ZONE %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <label for="timezone">Time zone:</label>
+        <select name="timezone">
+            {% for tz in timezones %}
+            <option value="{{ tz }}"{% if tz == TIME_ZONE %} selected{% endif %}>{{ tz }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Set">
+    </form>
+ 
+    {{ TIME_ZONE }}
+    {{ current_time|timezone:TIME_ZONE }} <!-- Отображаем время в выбранном часовом поясе  -->
+ 
+    {% for model in models %}
+    <div class="model-class">
+        {{ model.name }} 
+    </div>
+    {% endfor %}
+ 
+    
 </body>
 </html>

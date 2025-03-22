@@ -38,7 +38,7 @@ SITE_ID = 1
 
 INSTALLED_APPS = [
     'modeltranslation', # обязательно впишите его перед админом
-    
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -62,7 +62,7 @@ INSTALLED_APPS = [
     'celery',
 
     'mcdonalds',
-    'basic',
+    'main',
 ]
 
 MIDDLEWARE = [
@@ -78,6 +78,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     "allauth.account.middleware.AccountMiddleware",
+    'main.middlewares.TimezoneMiddleware', # add that middleware!
 ]
 
 ROOT_URLCONF = 'NewsPaper.urls'
