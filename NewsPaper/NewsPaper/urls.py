@@ -30,5 +30,6 @@ urlpatterns = [
     path('products/', include('simpleapp.urls')),
     path('news/', include('news.urls')),
     path('mcdonalds/', include('mcdonalds.urls')),
-    path('', include('main.urls'))
+    path('', include('main.urls')),
+    path('education/', include('education.urls')),
 ]
